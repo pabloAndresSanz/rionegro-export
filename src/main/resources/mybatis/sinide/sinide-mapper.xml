@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ar.gob.mde.dao.sinide.SinideDao">
+
+    <resultMap id="persona" type="ar.gob.mde.model.sinide.Persona">
+        <result property="idPersona" column="id_persona"/>
+        <result property="apellidos" column="apellidos"/>
+        <result property="nombres" column="nombres"/>
+        <result property="cTipoDocumento" column="c_tipo_documento"/>
+        <result property="numeroDocumento" column="nro_documento"/>
+        <result property="cuitCuil" column="cuit_cuil"/>
+        <result property="fechaNacimiento" column="fecha_nacimiento"/>
+        <result property="cLocalidadNacimiento" column="c_localidad_nacimiento"/>
+        <result property="lugarNacimiento" column="lugar_nacimiento"/>
+        <result property="cPaisNacimiento" column="c_pais_nacimiento"/>
+        <result property="cNacionalidad" column="c_nacionalidad"/>
+        <result property="cSexo" column="c_sexo"/>
+        <result property="email" column="email"/>
+        <result property="codAreaTelefono" column="cod_area_telefono"/>
+        <result property="nroTelefono" column="nro_telefono"/>
+        <result property="cEstadoCivil" column="c_estado_civil"/>
+        <result property="calle" column="calle"/>
+        <result property="nro" column="nro"/>
+        <result property="barrio" column="barrio"/>
+        <result property="cLocalidad" column="c_localidad"/>
+        <result property="referencia" column="referencia"/>
+        <result property="codPostal" column="cod_postal"/>
+        <result property="cPaisDomicilio" column="c_pais_domicilio"/>
+        <result property="cProvinciaNacimiento" column="c_provincia_nacimiento"/>
+        <result property="idAlumno" column="id_alumno"/>
+        <result property="cIndigena" column="c_indigena"/>
+        <result property="centroEncierro" column="centro_encierro"/>
+        <result property="cNivelAlcanzadoMadre" column="c_nivel_alcanzado_madre"/>
+        <result property="cNivelAlcanzadoPadre" column="c_nivel_alcanzado_padre"/>
+        <result property="idUnidadServicio" column="id_unidad_servicio"/>
+        <result property="cBeneficioAlimentario" column="c_beneficio_alimentario"/>
+        <result property="cBeneficioPlan" column="c_beneficio_plan"/>
+        <result property="cTransporte" column="c_transporte"/>
+        <result property="cTipoBeneficioPlan" column="c_tipo_beneficio_plan"/>
+        <result property="cTipoBeneficioAlimentario" column="c_tipo_beneficio_alimentario"/>
+        <result property="cDiscapacidad" column="c_discapacidad"/>
+    </resultMap>
+
+
+    <select id="queryPersonaWithOffsetAndLimit"  resultMap="persona">
+        select distinct
+            p.id_persona   id_persona,
+            p.apellidos    apellidos,
+            p.nombres  nombres,
+            p.c_tipo_documento c_tipo_documento,
+            p.nro_documento    nro_documento,
+            p.cuit_cuil    cuit_cuil,
+            p.fecha_nacimiento fecha_nacimiento,
+            p.c_localidad_nacimiento   c_localidad_nacimiento,
+            p.lugar_nacimiento lugar_nacimiento,
+            p.c_pais_nacimiento    c_pais_nacimiento,
+            p.c_nacionalidad   c_nacionalidad,
+            p.c_sexo   c_sexo,
+            p.email    email,
+            p.cod_area_telefono    cod_area_telefono,
+            p.nro_telefono nro_telefono,
+            p.c_estado_civil   c_estado_civil,
+            p.calle    calle,
+            p.nro  nro,
+            p.barrio   barrio,
+            p.c_localidad  c_localidad,
+            p.referencia   referencia,
+            p.cod_postal   cod_postal,
+            p.c_pais_domicilio c_pais_domicilio,
+            p.c_provincia_nacimiento   c_provincia_nacimiento,
+            a.id_alumno    id_alumno,
+            a.c_indigena   c_indigena,
+            a.centro_encierro  centro_encierro,
+            a.c_nivel_alcanzado_madre  c_nivel_alcanzado_madre,
+            a.c_nivel_alcanzado_padre  c_nivel_alcanzado_padre,
+            a.id_unidad_servicio   id_unidad_servicio,
+            a.c_beneficio_alimentario  c_beneficio_alimentario,
+            a.c_beneficio_plan c_beneficio_plan,
+            a.c_transporte c_transporte,
+            abp.c_tipo_beneficio_plan  c_tipo_beneficio_plan,
+            aba.c_tipo_beneficio_alimentario c_tipo_beneficio_alimentario,
+            adi.c_discapacidad c_discapacidad
+        from
+            salta.persona p
+                LEFT JOIN salta.alumno a ON p.id_persona = a.id_persona
+                LEFT JOIN salta.alumno_beneficio_plan abp ON a.id_alumno = abp.id_alumno
+                LEFT JOIN salta.alumno_beneficio_alimentario aba ON  a.id_alumno = aba.id_alumno
+                LEFT JOIN salta.alumno_discapacidad adi on a.id_alumno = adi.id_alumno
+        order by p.apellidos, p.nombres
+        offset #{offset}
+        limit #{limit}
+    </select>
+
+
+
+
+    <resultMap id="currCompleto" type="ar.gob.mde.model.sinide.CurrCompleto">
+        <result property="id_titulacion" column="id_titulacion"/>
+        <result property="nombre_titulacion" column="nombre_titulacion"/>
+        <result property="descripcion_adicional" column="descripcion_adicional"/>
+        <result property="c_tipo_titulo" column="c_tipo_titulo"/>
+        <result property="c_orientacion" column="c_orientacion"/>
+        <result property="c_dictado_titulacion" column="c_dictado_titulacion"/>
+        <result property="carga_horaria" column="carga_horaria"/>
+        <result property="c_carga_horaria_en_titulacion" column="c_carga_horaria_en_titulacion"/>
+        <result property="c_articulacion_univ" column="c_articulacion_univ"/>
+        <result property="duracion" column="duracion"/>
+        <result property="c_duracion_en" column="c_duracion_en"/>
+        <result property="id_titulacion_ciclo_basico" column="id_titulacion_ciclo_basico"/>
+
+        <result property="c_grado_nivel_servicio" column="c_grado_nivel_servicio"/>
+        <result property="c_grado" column="c_grado"/>
+        <result property="c_nivel_servicio" column="c_nivel_servicio"/>
+
+        <result property="id_espacio_curricular" column="id_espacio_curricular"/>
+        <result property="nombre_espacio_curricular" column="nombre_espacio_curricular"/>
+        <result property="c_trayecto_formativo" column="c_trayecto_formativo"/>
+        <result property="c_dictado_espacio_curricular" column="c_dictado_espacio_curricular"/>
+        <result property="c_obligatoriedad" column="c_obligatoriedad"/>
+        <result property="c_carga_horaria_en_espacio_curricular" column="c_carga_horaria_en_espacio_curricular"/>
+        <result property="carga_horaria_semanal" column="carga_horaria_semanal"/>
+        <result property="c_escala_numerica" column="c_escala_numerica"/>
+        <result property="nota_minima" column="nota_minima"/>
+        <result property="c_formato_espacio_curricular" column="c_formato_espacio_curricular"/>
+        <result property="c_espacio_curricular_duracion_en" column="c_espacio_curricular_duracion_en"/>
+        <result property="c_dicta_cuatrimestre" column="c_dicta_cuatrimestre"/>
+        <result property="c_promocionable" column="c_promocionable"/>
+        <result property="nota_promocion" column="nota_promocion"/>
+        <result property="nota_cursada" column="nota_cursada"/>
+    </resultMap>
+
+    <select id="queryCurrCompletoByIdTitulacion" resultMap="currCompleto">
+        select
+            -- titulacion
+            t.id_titulacion,
+            nt.nombre as nombre_titulacion,
+            t.descripcion_adicional,
+            t.c_tipo_titulo,
+            t.c_orientacion,
+            t.c_dictado as c_dictado_titulacion,
+            t.carga_horaria,
+            t.c_carga_horaria_en as c_carga_horaria_en_titulacion,
+            t.c_articulacion_univ,
+            t.duracion,
+            t.c_duracion_en,
+            t.id_titulacion_ciclo_basico,
+            -- grado-nivel-servicio
+            gnst.c_grado_nivel_servicio,
+            gnst.c_grado,
+            gnst.c_nivel_servicio,
+            -- espacio-curricular
+            ec.id_espacio_curricular,
+            nec.nombre as nombre_espacio_curricular,
+            ec.c_trayecto_formativo,
+            ec.c_dictado as c_dictado_espacio_curricular,
+            ec.c_obligatoriedad,
+            ec.c_carga_horaria_en as c_carga_horaria_en_espacio_curricular,
+            ec.carga_horaria_semanal,
+            ec.c_escala_numerica,
+            ec.nota_minima,
+            ec.c_formato_espacio_curricular,
+            ec.c_espacio_curricular_duracion_en,
+            ec.c_dicta_cuatrimestre,
+            ec.c_promocionable,
+            ec.nota_promocion,
+            ec.nota_cursada
+        from
+            salta.titulacion t
+                -- nombre titulacion
+                join salta.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
+                -- espacio-curricular
+                join salta.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
+                -- nombre espacio_curricular
+                join salta.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
+                -- grado-nivel-servicio
+                join codigos.grado_nivel_servicio_tipo gnst on gnst.c_grado_nivel_servicio = ec.c_grado_nivel_servicio
+        where
+            t.id_titulacion = #{id_titulacion}
+    </select>
+
+    <select id="queryCurrCompletoWithOffsetAndLimit" resultMap="currCompleto">
+        select
+            -- titulacion
+            t.id_titulacion,
+            nt.nombre as nombre_titulacion,
+            t.descripcion_adicional,
+            t.c_tipo_titulo,
+            t.c_orientacion,
+            t.c_dictado as c_dictado_titulacion,
+            t.carga_horaria,
+            t.c_carga_horaria_en as c_carga_horaria_en_titulacion,
+            t.c_articulacion_univ,
+            t.duracion,
+            t.c_duracion_en,
+            t.id_titulacion_ciclo_basico,
+            -- grado-nivel-servicio
+            gnst.c_grado_nivel_servicio,
+            gnst.c_grado,
+            gnst.c_nivel_servicio,
+            -- espacio-curricular
+            ec.id_espacio_curricular,
+            nec.nombre as nombre_espacio_curricular,
+            ec.c_trayecto_formativo,
+            ec.c_dictado as c_dictado_espacio_curricular,
+            ec.c_obligatoriedad,
+            ec.c_carga_horaria_en as c_carga_horaria_en_espacio_curricular,
+            ec.carga_horaria_semanal,
+            ec.c_escala_numerica,
+            ec.nota_minima,
+            ec.c_formato_espacio_curricular,
+            ec.c_espacio_curricular_duracion_en,
+            ec.c_dicta_cuatrimestre,
+            ec.c_promocionable,
+            ec.nota_promocion,
+            ec.nota_cursada
+        from
+            salta.titulacion t
+                -- nombre titulacion
+                join salta.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
+                -- espacio-curricular
+                join salta.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
+                -- nombre espacio_curricular
+                join salta.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
+                -- grado-nivel-servicio
+                join codigos.grado_nivel_servicio_tipo gnst on gnst.c_grado_nivel_servicio = ec.c_grado_nivel_servicio
+        order by
+            t.id_titulacion, gnst.c_grado_nivel_servicio, ec.id_espacio_curricular
+    </select>
+
+
+
+
+
+    <resultMap id="orgCompleto" type="ar.gob.mde.model.sinide.OrgCompleto">
+        <result property="id_establecimiento" column="id_establecimiento"/>
+        <result property="cue" column="cue"/>
+        <result property="est_nombre" column="est_nombre"/>
+        <result property="c_sector" column="c_sector"/>
+        <result property="est_fecha_creacion" column="est_fecha_creacion"/>
+        <result property="id_institucion" column="id_institucion"/>
+        <result property="codigo_jurisdiccional" column="codigo_jurisdiccional"/>
+        <result property="cueanexo" column="cueanexo"/>
+        <result property="loc_nombre" column="loc_nombre"/>
+        <result property="id_unidad_servicio" column="id_unidad_servicio"/>
+        <result property="c_nivel_servicio" column="c_nivel_servicio"/>
+        <result property="c_estado" column="c_estado"/>
+        <result property="id_seccion" column="id_seccion"/>
+        <result property="sec_nombre" column="sec_nombre"/>
+        <result property="plazas" column="plazas"/>
+        <result property="id_seccion_curricular" column="id_seccion_curricular"/>
+        <result property="c_grado_nivel_servicio" column="c_grado_nivel_servicio"/>
+        <result property="c_turno" column="c_turno"/>
+    </resultMap>
+
+    <select id="queryOrgCompletoByIdEstablecimiento"  resultMap="orgCompleto">
+        select
+             -- establecimiento
+            e.id_establecimiento,
+            e.cue,
+            e.nombre as est_nombre,
+            e.c_sector,
+            e.fecha_creacion as est_fecha_creacion,
+            -- institucion
+            i.id_institucion,
+            i.codigo_jurisdiccional,
+            i.cueanexo,
+            i.nombre as loc_nombre,
+            -- unidad de servicio
+            us.id_unidad_servicio,
+            us.c_nivel_servicio,
+            us.c_estado,
+            -- seccion
+            s.id_seccion,
+            s.nombre as sec_nombre,
+            s.plazas,
+            -- seccion curricular
+            sc.id_seccion_curricular,
+            sc.c_grado_nivel_servicio,
+            sc.c_turno
+        from
+            -- establecimiento
+            salta.establecimiento e
+                -- localizacion
+                join salta.institucion i          on i.id_establecimiento = e.id_establecimiento
+                -- unidad de servicio
+                join salta.unidad_servicio us     on us.id_institucion = i.id_institucion
+                -- seccion curricular
+                join salta.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
+                join salta.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
+                -- seccion
+                join salta.seccion s              on s.id_seccion = sc.id_seccion
+        where
+            e.id_establecimiento in ( #{id_establecimiento} )
+    </select>
+
+
+    <select id="queryOrgCompletoWithOffsetAndLimit"  resultMap="orgCompleto">
+        select
+            -- establecimiento
+            e.id_establecimiento,
+            e.cue,
+            e.nombre as est_nombre,
+            e.c_sector,
+            e.fecha_creacion as est_fecha_creacion,
+            -- institucion
+            i.id_institucion,
+            i.codigo_jurisdiccional,
+            i.cueanexo,
+            i.nombre as loc_nombre,
+            -- unidad de servicio
+            us.id_unidad_servicio,
+            us.c_nivel_servicio,
+            us.c_estado,
+            -- seccion
+            s.id_seccion,
+            s.nombre as sec_nombre,
+            s.plazas,
+            -- seccion curricular
+            sc.id_seccion_curricular,
+            sc.c_grado_nivel_servicio,
+            sc.c_turno
+        from
+            -- establecimiento
+            salta.establecimiento e
+                -- localizacion
+                join salta.institucion i          on i.id_establecimiento = e.id_establecimiento
+                -- unidad de servicio
+                join salta.unidad_servicio us     on us.id_institucion = i.id_institucion
+                -- seccion curricular
+                join salta.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
+                join salta.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
+                -- seccion
+                join salta.seccion s              on s.id_seccion = sc.id_seccion
+        order by
+            e.id_establecimiento, i.id_institucion,us.id_unidad_servicio,s.id_seccion,sc.id_seccion_curricular
+        offset #{offset}
+        limit #{limit}
+    </select>
+
+
+
+    <resultMap id="relacionOrgCurrPersona" type="ar.gob.mde.model.sinide.RelacionOrgCurrPersona">
+        <result property="idEspacioCurricular" column="id_espacio_curricular"/>
+        <result property="idSeccionCurricular" column="id_seccion_curricular"/>
+        <result property="idPersona"           column="id_persona"/>
+        <result property="fechaInscripcion"    column="fecha_insc"/>
+    </resultMap>
+
+    <select id="queryRelacionOrgCurrPersonaWithOffsetAndLimit"  resultMap="relacionOrgCurrPersona">
+        select distinct
+            aiec.id_espacio_curricular,
+            aiec.id_seccion_curricular,
+            p.id_persona,
+            ai.fecha_insc
+        from
+            salta.alumno_inscripcion_espacio_curricular aiec
+                join salta.alumno_inscripcion ai on ai.id_alumno_inscripcion = aiec.id_alumno_inscripcion
+                join salta.alumno a              on a.id_alumno = ai.id_alumno
+                join salta.persona p             on p.id_persona = a.id_persona
+        offset #{offset}
+        limit #{limit}
+    </select>
+
+
+
+</mapper>
+

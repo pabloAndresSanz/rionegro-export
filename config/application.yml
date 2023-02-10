@@ -1,0 +1,97 @@
+
+
+#
+# spring configuration
+spring:
+  main:
+    banner-mode: off
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  #
+  # datasources
+  # see: https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby
+  datasource:
+    sinide:
+      #name: sinide
+      pool-name: sinide_ds
+      driver-class-name: org.postgresql.Driver
+      #jdbc-url: jdbc:postgresql://138.197.65.231:5432/sinide
+      #username: postgres
+      #password: .md5e8a48653851e28c69d!
+      jdbc-url: jdbc:postgresql://${SINIDE_DB_HOST}:${SINIDE_DB_PORT}/${SINIDE_DB_NAME}
+      username: ${SINIDE_DB_USERNAME}
+      password: ${SINIDE_DB_PASSWORD}
+
+
+#
+# MyBatis configuration
+mybatis:
+  #config-location: 'classpath:mybatis-config.xml'
+  mapper-locations: 'classpath:config/mybatis/**.xml'
+  #type-aliases-package: ar.gob.mde.model
+  configuration:
+    cache-enabled: true
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    use-column-label: false
+    default-statement-timeout: 65000
+    map-underscore-to-camel-case: true
+
+#
+# Spring/Camel management configuration
+management:
+  server:
+    port: 8581
+
+  endpoints:
+    web:
+      #
+      # expose actuator endpoint via HTTP
+      exposure:
+        include: '*'
+        #include: info,health,camelroutes
+
+      #
+      # change the prefix for your management endpoint
+      base-path: /manage
+    #
+    #enable all management endpoints
+    enabled-by-default: true
+
+  endpoint:
+    #
+    # turn on actuator health check
+    health:
+      enabled: true
+      show-details: always
+    #
+    # allow to obtain basic information about camel routes (read only mode)
+    camelroutes:
+      enabled: true
+      read-only: true
+    #
+    # turn on actuator for remote shutdown
+    shutdown:
+      enabled: true
+
+#
+# Logging configuration
+logging:
+  #
+  # log config file
+  #config: config/logback.xml
+  #
+  # to configure logging levels
+  level:
+    org:
+      springframework: INFO
+      apache:
+        camel:
+          impl: INFO
+          spring:
+            boot: INFO
+
+#
+# Configuracion de la Aplicacion
+
