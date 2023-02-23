@@ -84,11 +84,11 @@
             aba.c_tipo_beneficio_alimentario c_tipo_beneficio_alimentario,
             adi.c_discapacidad c_discapacidad
         from
-            salta.persona p
-                LEFT JOIN salta.alumno a ON p.id_persona = a.id_persona
-                LEFT JOIN salta.alumno_beneficio_plan abp ON a.id_alumno = abp.id_alumno
-                LEFT JOIN salta.alumno_beneficio_alimentario aba ON  a.id_alumno = aba.id_alumno
-                LEFT JOIN salta.alumno_discapacidad adi on a.id_alumno = adi.id_alumno
+            ${esquema}.persona p
+                LEFT JOIN ${esquema}.alumno a ON p.id_persona = a.id_persona
+                LEFT JOIN ${esquema}.alumno_beneficio_plan abp ON a.id_alumno = abp.id_alumno
+                LEFT JOIN ${esquema}.alumno_beneficio_alimentario aba ON  a.id_alumno = aba.id_alumno
+                LEFT JOIN ${esquema}.alumno_discapacidad adi on a.id_alumno = adi.id_alumno
         order by p.apellidos, p.nombres
         offset #{offset}
         limit #{limit}
@@ -168,13 +168,13 @@
             ec.nota_promocion,
             ec.nota_cursada
         from
-            salta.titulacion t
+            ${esquema}.titulacion t
                 -- nombre titulacion
-                join salta.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
+                join ${esquema}.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
                 -- espacio-curricular
-                join salta.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
+                join ${esquema}.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
                 -- nombre espacio_curricular
-                join salta.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
+                join ${esquema}.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
                 -- grado-nivel-servicio
                 join codigos.grado_nivel_servicio_tipo gnst on gnst.c_grado_nivel_servicio = ec.c_grado_nivel_servicio
         where
@@ -217,13 +217,13 @@
             ec.nota_promocion,
             ec.nota_cursada
         from
-            salta.titulacion t
+            ${esquema}.titulacion t
                 -- nombre titulacion
-                join salta.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
+                join ${esquema}.nombre_titulacion nt on nt.id_nombre_titulacion = t.id_nombre_titulacion
                 -- espacio-curricular
-                join salta.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
+                join ${esquema}.espacio_curricular ec on ec.id_titulacion = t.id_titulacion
                 -- nombre espacio_curricular
-                join salta.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
+                join ${esquema}.nombre_espacio_curricular nec on nec.id_nombre_espacio_curricular = ec.id_nombre_espacio_curricular
                 -- grado-nivel-servicio
                 join codigos.grado_nivel_servicio_tipo gnst on gnst.c_grado_nivel_servicio = ec.c_grado_nivel_servicio
         order by
@@ -282,16 +282,16 @@
             sc.c_turno
         from
             -- establecimiento
-            salta.establecimiento e
+            ${esquema}.establecimiento e
                 -- localizacion
-                join salta.institucion i          on i.id_establecimiento = e.id_establecimiento
+                join ${esquema}.institucion i          on i.id_establecimiento = e.id_establecimiento
                 -- unidad de servicio
-                join salta.unidad_servicio us     on us.id_institucion = i.id_institucion
+                join ${esquema}.unidad_servicio us     on us.id_institucion = i.id_institucion
                 -- seccion curricular
-                join salta.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
-                join salta.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
+                join ${esquema}.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
+                join ${esquema}.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
                 -- seccion
-                join salta.seccion s              on s.id_seccion = sc.id_seccion
+                join ${esquema}.seccion s              on s.id_seccion = sc.id_seccion
         where
             e.id_establecimiento in ( #{id_establecimiento} )
     </select>
@@ -324,16 +324,16 @@
             sc.c_turno
         from
             -- establecimiento
-            salta.establecimiento e
+            ${esquema}.establecimiento e
                 -- localizacion
-                join salta.institucion i          on i.id_establecimiento = e.id_establecimiento
+                join ${esquema}.institucion i          on i.id_establecimiento = e.id_establecimiento
                 -- unidad de servicio
-                join salta.unidad_servicio us     on us.id_institucion = i.id_institucion
+                join ${esquema}.unidad_servicio us     on us.id_institucion = i.id_institucion
                 -- seccion curricular
-                join salta.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
-                join salta.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
+                join ${esquema}.titulacion t           on t.id_unidad_servicio = us.id_unidad_servicio
+                join ${esquema}.seccion_curricular sc  on sc.id_titulacion = t.id_titulacion
                 -- seccion
-                join salta.seccion s              on s.id_seccion = sc.id_seccion
+                join ${esquema}.seccion s              on s.id_seccion = sc.id_seccion
         order by
             e.id_establecimiento, i.id_institucion,us.id_unidad_servicio,s.id_seccion,sc.id_seccion_curricular
         offset #{offset}
@@ -356,10 +356,10 @@
             p.id_persona,
             ai.fecha_insc
         from
-            salta.alumno_inscripcion_espacio_curricular aiec
-                join salta.alumno_inscripcion ai on ai.id_alumno_inscripcion = aiec.id_alumno_inscripcion
-                join salta.alumno a              on a.id_alumno = ai.id_alumno
-                join salta.persona p             on p.id_persona = a.id_persona
+            ${esquema}.alumno_inscripcion_espacio_curricular aiec
+                join ${esquema}.alumno_inscripcion ai on ai.id_alumno_inscripcion = aiec.id_alumno_inscripcion
+                join ${esquema}.alumno a              on a.id_alumno = ai.id_alumno
+                join ${esquema}.persona p             on p.id_persona = a.id_persona
         offset #{offset}
         limit #{limit}
     </select>

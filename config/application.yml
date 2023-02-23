@@ -22,7 +22,7 @@ spring:
       jdbc-url: jdbc:postgresql://${SINIDE_DB_HOST}:${SINIDE_DB_PORT}/${SINIDE_DB_NAME}
       username: ${SINIDE_DB_USERNAME}
       password: ${SINIDE_DB_PASSWORD}
-
+app.esquema: ${SINIDE_DB_ESQUEMA}
 
 #
 # MyBatis configuration

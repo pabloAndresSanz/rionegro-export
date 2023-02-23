@@ -1,20 +1,29 @@
 package ar.gob.mde.service;
 
 
-import ar.gob.mde.dao.sinide.SinideDao;
-import ar.gob.mde.model.sinide.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import ar.gob.mde.dao.sinide.SinideDao;
+import ar.gob.mde.model.sinide.CurrCompleto;
+import ar.gob.mde.model.sinide.Establecimiento;
+import ar.gob.mde.model.sinide.OrgCompleto;
+import ar.gob.mde.model.sinide.Persona;
+import ar.gob.mde.model.sinide.RelacionOrgCurrPersona;
+import ar.gob.mde.model.sinide.Titulacion;
 
 @Service
 public class SinideService {
 
     @Autowired
     private SinideDao sinideDao;
+    @Value("${app.esquema}")
+    private String esquema;
 
     /**
      * Obtiene todas las personas limitadas por el rango [offset,limit]
@@ -24,7 +33,7 @@ public class SinideService {
      * @return
      */
     public List<Persona> getPersonas(Long offset, Long limit) {
-        List<Persona> tList = sinideDao.queryPersonaWithOffsetAndLimit(offset, limit);
+        List<Persona> tList = sinideDao.queryPersonaWithOffsetAndLimit(esquema,offset, limit);
         return tList;
     }
 
@@ -35,7 +44,7 @@ public class SinideService {
      * @return
      */
     public Collection<Titulacion> getTitulacionById(Long idTitulacion) {
-        List<CurrCompleto> currCompletoList = sinideDao.queryCurrCompletoByIdTitulacion(idTitulacion);
+        List<CurrCompleto> currCompletoList = sinideDao.queryCurrCompletoByIdTitulacion(esquema,idTitulacion);
         HashMap<Long, Titulacion> titMap = new HashMap<>(10000);
 
         for(CurrCompleto curr : currCompletoList) {
@@ -54,7 +63,7 @@ public class SinideService {
      * @return
      */
     public Collection<Titulacion> getTitulacionesAll(Long offset, Long limit) {
-        List<CurrCompleto> currCompletoList = sinideDao.queryCurrCompletoWithOffsetAndLimit(offset,limit);
+        List<CurrCompleto> currCompletoList = sinideDao.queryCurrCompletoWithOffsetAndLimit(esquema,offset,limit);
         HashMap<Long, Titulacion> titMap = new HashMap<>(10000);
 
         for(CurrCompleto curr : currCompletoList) {
@@ -72,7 +81,7 @@ public class SinideService {
      * @return
      */
     public Collection<Establecimiento> getEstablecimientoById(Long idEstablecimiento) {
-        List<OrgCompleto> orgCompletoList = sinideDao.queryOrgCompletoByIdEstablecimiento(idEstablecimiento);
+        List<OrgCompleto> orgCompletoList = sinideDao.queryOrgCompletoByIdEstablecimiento(esquema,idEstablecimiento);
         HashMap<Long, Establecimiento> estMap = new HashMap<>(1);
 
         for(OrgCompleto org : orgCompletoList) {
@@ -95,7 +104,7 @@ public class SinideService {
      * @return
      */
     public Collection<Establecimiento> getEstablecimientosAll(Long offset, Long limit) {
-        List<OrgCompleto> orgCompletoList = sinideDao.queryOrgCompletoWithOffsetAndLimit(offset,limit);
+        List<OrgCompleto> orgCompletoList = sinideDao.queryOrgCompletoWithOffsetAndLimit(esquema,offset,limit);
         HashMap<Long, Establecimiento> estMap = new HashMap<>(1000);
 
         for(OrgCompleto org : orgCompletoList) {
@@ -109,7 +118,7 @@ public class SinideService {
 
 
     public List<RelacionOrgCurrPersona> getRelacionOrgCurrPersona(Long offset, Long limit) {
-        List<RelacionOrgCurrPersona> tList = sinideDao.queryRelacionOrgCurrPersonaWithOffsetAndLimit("salta", offset, limit);
+        List<RelacionOrgCurrPersona> tList = sinideDao.queryRelacionOrgCurrPersonaWithOffsetAndLimit(esquema, offset, limit);
         return tList;
     }
 
